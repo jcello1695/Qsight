@@ -35,6 +35,7 @@ namespace QSightClient.Pages
             _selectedFilePath = file.Path;
             SelectedFileText.Text = file.Name;
             StartScanButton.IsEnabled = true;
+            RegistWhiteListButton.IsEnabled = false;
 
             ScanStatusText.Text = "-";
             ScanSeverityText.Text = "-";
@@ -74,7 +75,7 @@ namespace QSightClient.Pages
             }
         }
 
-        private void OnWhitelistClick(object sender, RoutedEventArgs e)
+        private void OnWhitelist_Click(object sender, RoutedEventArgs e)
         {
             if (_selectedLog == null)
                 return;

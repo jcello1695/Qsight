@@ -25,8 +25,8 @@ namespace QSightClient
 
             if (appWindow != null)
             {
-                uint width = 600;
-                uint height = 350;
+                uint width = 800;
+                uint height = 600;
                 appWindow.Resize(new SizeInt32 { Width = (int)width, Height = (int)height });
             }
 

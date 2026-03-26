@@ -5,9 +5,11 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Shapes;
 using QSightClient.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -25,6 +27,8 @@ namespace QSightClient.Pages
     /// </summary>
     public sealed partial class StatusPage : Page
     {
+        public ObservableCollection<string> UnknownFiles { get; set; } = new();
+
         public StatusPage()
         {
             InitializeComponent();
@@ -35,16 +39,29 @@ namespace QSightClient.Pages
                 DispatcherQueue.TryEnqueue(() =>
                 {
                     CurrentFileText.Text = fileName;
-                    LastMessageText.Text = $"파일 감지: {fileName}";
+                    LastMessageText.Text = $"File Detected: {fileName}";
                 });
             };
 
-            App.Watcher.OnScanComplete += (fileName, result) =>
+            App.Agent.OnScanCompleted += (fileName, result) =>
+            {
+                DispatcherQueue.TryEnqueue(async () =>
+                {
+                    await LoadDashboardAsync();
+
+                    if (result.Equals("Unknown", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (!UnknownFiles.Contains(fileName))
+                            UnknownFiles.Add(fileName);
+                    }
+                });
+            };
+
+            App.Agent.OnScanStarted += path =>
             {
                 DispatcherQueue.TryEnqueue(() =>
                 {
-                    LastMessageText.Text = $"스캔 완료: {fileName} → {result}";
-                    _ = LoadDashboardAsync();
+                    CurrentFileText.Text = System.IO.Path.GetFileName(path);
                 });
             };
 
@@ -123,6 +140,7 @@ namespace QSightClient.Pages
             if (!ok) return;
 
             var summary = await App.Api.GetDashboardSummaryAsync(30);
+
             if (summary?.summary != null)
             {
                 TotalScansText.Text = summary.summary.total_scans.ToString();

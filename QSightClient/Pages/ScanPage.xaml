@@ -34,7 +34,7 @@
 
                         <Button x:Name="SelectFileButton" Content="파일 선택" Click="SelectFile_Click" Width="150" HorizontalAlignment="Stretch"/>
                         <Button x:Name="StartScanButton" Content="스캔 시작" Click="StartScan_Click" Width="150" IsEnabled="False" HorizontalAlignment="Stretch" Style="{StaticResource AccentButtonStyle}"/>
-                        <Button x:Name="RegistWhiteListButton" Content="화이트리스트 등록" Click="OnWhitelistClick" Width="150" IsEnabled="False" HorizontalAlignment="Stretch"/>
+                        <Button x:Name="RegistWhiteListButton" Content="화이트리스트 등록" Click="OnWhitelist_Click" Width="150" IsEnabled="False" HorizontalAlignment="Stretch"/>
                     </StackPanel>
 
                     <Rectangle Grid.Column="1" Width="1" Fill="{ThemeResource SystemControlForegroundBaseLowBrush}" Opacity="0.3" Margin="0,10"/>

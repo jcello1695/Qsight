@@ -56,7 +56,7 @@ namespace QSightClient
                 Debug.WriteLine($"새 파일 감지: {fileName}");
             };
 
-            Watcher.OnScanComplete += (fileName, result) =>
+            Agent.OnScanCompleted += (fileName, result) =>
             {
                 Debug.WriteLine($"스캔 완료: {fileName} → {result}");
             };

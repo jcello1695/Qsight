@@ -11,7 +11,6 @@ namespace QSightClient.Services
 		private readonly ApiService _api;
 
 		public event Action<string>? OnFileDetected;
-		public event Action<string, string>? OnScanComplete; // fileName, result
 
 		public WatcherService(ApiService api)
 		{
@@ -57,8 +56,6 @@ namespace QSightClient.Services
 			try
 			{
                 await App.Agent.StartHeadlessScan(e.FullPath);
-
-                OnScanComplete?.Invoke(e.Name ?? "", "requested");
 			}
 			catch
 			{
